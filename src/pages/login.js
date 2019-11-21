@@ -41,7 +41,7 @@ class login extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        
+
         this.setState({
             loading: true
         })
@@ -108,8 +108,18 @@ class login extends Component {
                             margin="normal" 
                             error={errors.general ? true : false }
                             helperText={errors.general}/> <br/>
+
                         {loading && <CircularProgress className={classes.progress} /> } <br/>
-                        <Button type="submit" variant="contained" color="primary"> Login</Button> <br/> <br/>
+
+                        <Button 
+                        type="submit" 
+                        variant="contained" 
+                        color="primary"
+                        disabled={loading}> 
+                        Login
+                        </Button> 
+
+                        <br/> <br/>
                         <small>Don't have an account ? signup <Link to="/signup"> here </Link> </small>
                     </form>
                 </Grid>
