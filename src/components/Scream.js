@@ -27,7 +27,7 @@ const styles = {
     avatar: {
         minWidth: 200,
         minHeight: 200,
-        border: "2px solid #90caf9"
+        border: "2px solid white"
     }
 }
 
