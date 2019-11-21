@@ -1,0 +1,11 @@
+palette: {
+    primary: {
+        light: '#ffb300',
+        main:  '#ff8f00',
+        dark:  '#ff6f00'
+    },
+    secondary: {
+        black: '#212121',
+        white: '#fafafa'
+    }
+}
