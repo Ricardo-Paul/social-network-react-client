@@ -3,7 +3,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import AppIcon from '../images/network.png';
 import Typography from '@material-ui/core/Typography';
-import axios from '@material-ui/core/axios';
+import axios from 'axios';
 
 
 // form Stuff
@@ -36,8 +36,28 @@ class login extends Component {
     }
 
     handleSubmit = (event) => {
+        this.setState({
+            loading: true
+        })
         event.preventDefault();
-        console.log('submitted');
+        axios.post('/login', {
+            email: this.state.email,
+            password: this.state.password
+        })
+        .then(res => {
+            console.log(res.data)
+            this.setState({
+                loading: false
+            });
+            this.props.history.push('/');
+        })
+        .catch(err => {
+            this.setState({
+                errors: err.response.data,
+                loading: false
+            })
+            console.log(this.state.errors)
+        })
     }
 
     handleChange = (event) => {
@@ -48,6 +68,8 @@ class login extends Component {
 
     render() {
         const { classes } = this.props;
+        const { errors } = this.state;
+        const wrongEmail = errors.error ? "Wrong email, please try again" : "";
         return (
             <Grid container className={classes.form}>
                 <Grid item xs/>
@@ -55,13 +77,31 @@ class login extends Component {
                     <img className={classes.picture} src={AppIcon} alt="connect"/>
                     <Typography variant="h2" className={classes.login} color="primary" >Login</Typography>
                     <form noValidate onSubmit={this.handleSubmit}  >
-                        <TextField id="email" name="email" type="email" label="Email" className={classes.textField}
-                            value={this.state.email} onChange={this.handleChange} fullWidth variant="outlined"
-                            margin="normal"/>
+                        <TextField id="email" 
+                        name="email" 
+                        type="email" 
+                        label="Email" 
+                        className={classes.textField}
+                        value={this.state.email} 
+                        onChange={this.handleChange} 
+                        fullWidth 
+                        variant="outlined"
+                        margin="normal"
+                        error={errors.error ? true : false}
+                        helperText={wrongEmail} />
 
-                        <TextField id="password" name="password" type="password" label="Password" className={classes.textField}
-                            value={this.state.password} onChange={this.handleChange} fullWidth variant="outlined"
-                            margin="normal"/>
+                        <TextField id="password"
+                            name="password" 
+                            type="password" 
+                            label="Password" 
+                            className={classes.textField}
+                            value={this.state.password} 
+                            onChange={this.handleChange} 
+                            fullWidth 
+                            variant="outlined"
+                            margin="normal" 
+                            error={errors.general ? true : false }
+                            helperText={errors.general}/>
 
                         <Button type="submit" variant="contained" color="primary"> Login </Button>
                     </form>
