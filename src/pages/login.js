@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import AppIcon from '../images/network.png';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
-
+import { Link } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 // form Stuff
 import TextField from '@material-ui/core/TextField';
@@ -20,6 +21,9 @@ const styles = {
     picture: {
         maxHeight: 50,
         margin: '0px auto 20px auto'
+    },
+    progress: {
+       position: 'center'
     }
 }
 
@@ -36,10 +40,12 @@ class login extends Component {
     }
 
     handleSubmit = (event) => {
+        event.preventDefault();
+        
         this.setState({
             loading: true
         })
-        event.preventDefault();
+    
         axios.post('/login', {
             email: this.state.email,
             password: this.state.password
@@ -68,7 +74,7 @@ class login extends Component {
 
     render() {
         const { classes } = this.props;
-        const { errors } = this.state;
+        const { errors, loading } = this.state;
         const wrongEmail = errors.error ? "Wrong email, please try again" : "";
         return (
             <Grid container className={classes.form}>
@@ -101,9 +107,10 @@ class login extends Component {
                             variant="outlined"
                             margin="normal" 
                             error={errors.general ? true : false }
-                            helperText={errors.general}/>
-
-                        <Button type="submit" variant="contained" color="primary"> Login </Button>
+                            helperText={errors.general}/> <br/>
+                        {loading && <CircularProgress className={classes.progress} /> } <br/>
+                        <Button type="submit" variant="contained" color="primary"> Login</Button> <br/> <br/>
+                        <small>Don't have an account ? signup <Link to="/signup"> here </Link> </small>
                     </form>
                 </Grid>
                 <Grid item xs/>
