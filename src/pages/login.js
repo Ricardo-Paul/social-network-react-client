@@ -15,17 +15,20 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
 const styles = {
-    form: {
-        textAlign: 'center'
-    },
-    picture: {
-        maxHeight: 50,
-        margin: '0px auto 20px auto'
-    },
-    progress: {
-       position: 'center'
-    }
-}
+
+  form: {
+    textAlign: 'center'
+  },
+  picture: {
+    maxHeight: 50,
+    margin: '0px auto 20px auto'
+  },
+  progress: {
+  position: 'center'
+  }
+};
+
+
 
 class login extends Component {
 
@@ -52,6 +55,7 @@ class login extends Component {
         })
         .then(res => {
             console.log(res.data)
+            localStorage.setItem('FBIdToken', `Bearer ${res.data.token}`);
             this.setState({
                 loading: false
             });
@@ -81,7 +85,7 @@ class login extends Component {
                 <Grid item xs/>
                 <Grid item xs>
                     <img className={classes.picture} src={AppIcon} alt="connect"/>
-                    <Typography variant="h2" className={classes.login} color="primary" >Login</Typography>
+                    <Typography variant="h2" className={classes.login} color="primary">Login</Typography>
                     <form noValidate onSubmit={this.handleSubmit}  >
                         <TextField id="email" 
                         name="email" 
