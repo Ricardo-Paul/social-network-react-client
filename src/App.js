@@ -8,6 +8,9 @@ import Navbar from './components/Navbar';
 import jwtDecode from 'jwt-decode';
 import AuthRoute from './util/AuthRoute';
 
+// Redux
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 // Mui Stuff
 import { ThemeProvider as MuiThemeProvider} from '@material-ui/core/styles';
@@ -45,7 +48,7 @@ if(token){
 function App() {
   return (
     <MuiThemeProvider theme={theme}>
-      <div className="App">
+      <Provider store={store}>
       <Router>
         <Navbar/>
         <div className="container">
@@ -56,7 +59,7 @@ function App() {
         </Switch>
         </div>
       </Router>
-    </div>
+      </Provider>
     </MuiThemeProvider>
   );
 }
