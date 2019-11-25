@@ -19,7 +19,6 @@ import { connect }from 'react-redux';
 import { loginUser } from '../redux/actions/userActions';
 
 const styles = {
-
   form: {
     textAlign: 'center'
   },
@@ -45,6 +44,12 @@ class login extends Component {
         }
     }
 
+    componentWillReceiveProps(nextProps){
+        if(nextProps.UI.errors){
+            this.setState({ errors: nextProps.UI.errors })
+        }
+    }
+
     handleSubmit = (event) => {
         event.preventDefault();
 
@@ -52,6 +57,7 @@ class login extends Component {
             email: this.state.email,
             password: this.state.password
         };
+
         this.props.loginUser(userData, this.props.history);
     }
 
