@@ -1,0 +1,31 @@
+ - for a user to be authenticated
+ - its token should be in local storage
+
+ const token = localStorage.FBIdtoken;
+
+ ** That's why in App.js where the roots are, we check for the token.
+        const token  = localStorage.FBIdtoken;
+
+** we decode the toekn to know if it is expired-- if it is then we should redirect to login
+
+let authenticated;
+const decodedToken = jwtDecode(token)
+if (decodedToken.exp * 1000 < Date.now()){
+    window.redirect/href = "/login"
+    authenticated = false;
+}
+else {
+    authenticated = true;
+}
+
+** REDIRECT outside A COMPONENT
+    window.location.href = "/login";
+
+** REDIRECT INSIDE A COMPONENT
+    history.push("/login")
+
+
+________________________________________________________________
+the action type SET_AUTHENTICATED manipulates the intial value of user Reducer (user: userReducer) / the variable "authenticated: true / false"
+
+authenticated: state.user.authenticated;

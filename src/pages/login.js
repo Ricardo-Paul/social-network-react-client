@@ -18,6 +18,10 @@ import Grid from '@material-ui/core/Grid';
 import { connect }from 'react-redux';
 import { loginUser } from '../redux/actions/userActions';
 
+// my redux stuff
+import store from '../redux/store';
+const SAYMYNAME = 'SAYMYNAME';
+
 const styles = {
   form: {
     textAlign: 'center'
@@ -68,6 +72,7 @@ class login extends Component {
     }
 
     render() {
+        store.dispatch({ type: SAYMYNAME });
         const { classes, UI: { loading } } = this.props;
         const { errors } = this.state;
         const wrongEmail = errors.error ? "Wrong email, please try again" : "";

@@ -12,6 +12,10 @@ import AuthRoute from './util/AuthRoute';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 
+// Get rid of authenticated global variable
+import { SET_AUTHENTICATED } from './redux/types';
+import { logoutUser, getUserData } from './redux/actions/userActions'
+
 // Mui Stuff
 import { ThemeProvider as MuiThemeProvider} from '@material-ui/core/styles';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
@@ -33,15 +37,14 @@ const theme = createMuiTheme({
 }
 });
 
-let authenticated;
 const token = localStorage.FBIdToken;
 if(token){
   const decodedToken = jwtDecode(token);
   if(decodedToken.exp * 1000 < Date.now()){
     window.location.href = '/login';
-    authenticated = false;
+    store.dispatch(logoutUser());
   }else {
-    authenticated = true;
+    store.dispatch({ SET_AUTHENTICATED })
   }
 }
 
@@ -54,8 +57,8 @@ function App() {
         <div className="container">
         <Switch>
           <Route exact path="/" component={home} />
-          <AuthRoute exact path="/login" component={login} authenticated={authenticated} />
-          <AuthRoute exact path="/signup" component={signup} authenticated={authenticated} />
+          <AuthRoute exact path="/login" component={login} />
+          <AuthRoute exact path="/signup" component={signup} />
         </Switch>
         </div>
       </Router>

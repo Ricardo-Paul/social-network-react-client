@@ -10,3 +10,7 @@ export const LOADING_UI = 'LOADING_UI';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
 // Data reducer types
+
+
+// my types
+export const SAYMYNAME = 'SAYMYNAME';

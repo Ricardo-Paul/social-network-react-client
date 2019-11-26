@@ -1,0 +1,115 @@
+step ZERO
+    install react-redux
+    envelop the App into Provider and pass store as parameter
+
+
+step ONE
+Work with userReducer
+
+- set the types
+    -SET_AUTHENTICATED, SET_UNAUTHENTICATED //  responsible to set the authenticated variable (true / false)
+    -SET_USER                               // responsible to set t
+    -LOADING USER
+
+    -LOADING_UI
+    -SET_ERRORS
+
+store
+type + action = reducer 
+
+** Each time you dispatch an action using a specific type, a change will occur at this position
+** You will specify what the type will do in the reducer 
+
+step TWO (what happens on login)
+** the login user takes the userData and dispatch argument
+create ations with the types
+
+    - function fired, send type to set loading to true dispatch({ type: LOADING_UI })
+    -send request to login and handle response 
+    - get the token from the response and store it to local storage token = res.data.token 
+
+    UI: { loading }
+
+        - each reducer is sent into a variable in combine reducers
+            const reducers = combineReducers({
+                UI: uiReducer
+            })
+        - You will access the reducer using this variable inside the functions mapStateToProps
+            const mapStateToProps = (state) => {
+                UI: state.UI
+            }
+
+
+        - each reducer has an initial state 
+
+
+
+
+        ** the action types are dispatched in the program flow
+        ** the action types allow reducers to modify their initial state 
+
+
+CONNECT STORE TO COMPONENT
+** you need two things from the reducer STATE AND ACTION
+** you need to connect them with the Props of the component 
+    - so you pass these two functions inside connect(mapStateToProps, mapActionsToProps)
+
+** You will need to pass them as the .propTypes (property type and require) of the component
+    login.propTypes = {
+        loginUser: PropTypes.func.isRequired,
+        UI: PropTyes.object.isRequired,
+        user: PropTypes.object.isRequired
+    }
+
+
+** You can access the state using its function
+mapStateToProps(state){
+    UI: state.UI,
+    user: state.user
+}
+** For the action, you have to import it and place it inside its function
+const mapActionsToProps = () => {
+    loginUser
+}
+
+** IMPORTANT
+The only thing we modify in the login is moving loading from the local state to global state...
+and pass the global state down as Props
+
+CONCRETELY: delete loading: false from component state
+    declare loading: false as initialState of the uiReducer
+
+
+
+** TO REALLY ADD THE STATES and action AS PROPS FOR THE COMPONENT, YOU NEED TO INCLUDE THE IN THE propTypes of the component
+
+**
+login.propTypes = {
+    loginUser: PropTyes.func.isRequired,
+    UI: PropTyes.object.isRequired
+}
+
+// these elements will be accessed with this.props.loginUser(userData, this.props.history)
+
+
+TO FINISH
+    -   inside the submit function where you cut the axios request 
+    you have to pass the function (action) so the program flow will continue
+
+
+    Now when we want to access loading, we will access destructure it from the props
+
+    const { UI: {loading} } = this.props;
+
+    
+    lifecycle mehtod where we can access the properties
+
+
+// For errors: we use the imported property to modify the errors state
+
+    const componentWillReceiveProps(nexProps){
+        console.log(nexProps.UI.loading)
+        if(nextProps.UI.errors){
+            this.setState({ errors: nexProps.UI.errors })
+        }
+    }
